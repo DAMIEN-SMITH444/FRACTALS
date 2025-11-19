@@ -1,47 +1,124 @@
-Fractal Set Generators in C
+🌀 Fractal Generator in C
+Mandelbrot • Burning Ship • Tricorn
 
-This repo contains simple C programs generating three famous fractals:
+A modular C project implementing three famous fractal sets using the escape-time algorithm, with clean file separation, reusable rendering logic, and text-based output.
 
-    Mandelbrot set
+📌 Project Overview
 
-    Julia set
+This project generates three mathematically significant fractals:
 
-    Tricorn (Mandelbar) set
+Mandelbrot Set
 
-Each program uses the escape-time algorithm and outputs a PPM image file.
-Description
+Burning Ship Set
 
-    Mandelbrot: iterates zn+1=zn2+czn+1=zn2+c with z0=0z0=0.
+Tricorn (Mandelbar) Set
 
-    Julia: fixes cc, iterates zn+1=zn2+czn+1=zn2+c with z0z0 from the pixel coordinates.
+Each fractal is computed using the escape-time iterative method, mapped over a 2D grid, and saved as a text-formatted output (0 = inside, 1 = outside).
+The project is written in standard C and organized in a modular structure with separate .c and .h files for each fractal.
 
-    Tricorn: iterates zn+1=zn‾2+czn+1=zn2+c (complex conjugate squared).
+🗂️ Project Structure
+Fractals-Project/
+│
+├── main.c
+│
+├── mandelbrot.c
+├── mandelbrot.h
+│
+├── burningship.c
+├── burningship.h
+│
+├── tricorn.c
+├── tricorn.h
+│
+└── README.md
 
-How to Compile & Run
-gcc -o mandelbrot mandelbrot.c -lm
-gcc -o julia julia.c -lm
-gcc -o tricorn tricorn.c -lm
+⚙️ How It Works
 
-./mandelbrot
-./julia
-./tricorn
+All fractals use the same escape-time logic:
 
-This generates mandelbrot.ppm, julia.ppm, and tricorn.ppm.
-Viewing Images
+Map each pixel → complex number c
 
-Use any image viewer supporting PPM, or convert to PNG:
+Initialize z = 0
 
-bash
-convert mandelbrot.ppm mandelbrot.png
+Iterate using the fractal’s transformation rule
 
-Notes & Ideas
+If |z| > 2, the point escapes → mark as 1
 
-    Adjust MAX_ITER for more detail or speed.
+If the max iteration is reached, point stays bounded → mark as 0
 
-    Change complex plane boundaries to zoom.
+Save result row-by-row into a text file
 
-    Modify color schemes for variation.
+Each fractal uses its own formula:
 
-License
+1. Mandelbrot
+                zn+1=zn2+c
+2. Burning Ship
+                zn+1=(∣Re(zn)∣+i∣Im(zn)∣)2+c
+3. Tricorn
+                zn+1=(zn2)‾+c
 
-MIT License — free to use and modify.
+
+🖥️ Compiling & Running
+
+Compile using GCC:
+gcc main.c mandelbrot.c burningship.c tricorn.c -o fractals -lm
+Run the program:
+./fractals
+
+Choose a fractal from the menu:
+1. Mandelbrot
+2. Burning Ship
+3. Tricorn
+   
+The program outputs:
+
+mandelbrot.txt
+burningship.txt
+tricorn.txt
+
+🧩 Output Format
+
+The output files store fractals in a simple binary-text style:
+
+0 → inside the set
+
+1 → escaped / outside the set
+
+Example (shortened):
+
+00011111...
+00011111...
+11100000...
+This makes the output easy to analyze, visualize, or convert for further processing.
+
+🔧 Customization Options
+
+You can modify the following parameters in main.c:
+
+WIDTH, HEIGHT → resolution
+
+MAX_ITER → detail level
+
+(x_min, x_max, y_min, y_max) → view window
+
+Try increasing MAX_ITER for sharper, more detailed fractal edges.
+
+🚀 Future Enhancements
+
+Some ideas for expansion:
+
+Export fractals as PPM/PNG images
+
+Enable interactive zooming
+
+Add Julia sets
+
+Add color gradients instead of binary output
+
+Implement a simple GUI
+
+📜 License
+
+This project is open-source under the MIT License.
+Feel free to modify, share, and build upon it.
+
